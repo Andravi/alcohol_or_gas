@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Cores principais -->
+    <color name="light_green">#A3D9A5</color> <!-- Verde Claro -->
+    <color name="light_blue">#66AEDD</color>  <!-- Azul Claro -->
+    <color name="light_gray">#D1D1D1</color>  <!-- Cinza Claro -->
+    <color name="yellow">#F4D03F</color>      <!-- Amarelo -->
+    <color name="dark_gray">#4A4A4A</color>    <!-- Cinza Escuro -->
+    <color name="orange">#F39C12</color>      <!-- Laranja -->
+
+    <!-- Cores para o modo escuro -->
+    <color name="dark_green">#2E8B57</color>   <!-- Verde Escuro -->
+    <color name="dark_blue">#1D6E87</color>    <!-- Azul Escuro -->
+    <color name="dark_black">#000000</color>   <!-- Preto -->
+    <color name="dark_white">#FAFAFA</color>   <!-- Branco suave para o modo escuro -->
+
+    <!-- Cores padrão -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

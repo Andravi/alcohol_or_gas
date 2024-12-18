@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -219,6 +220,8 @@ fun topbar() {
         containerColor = MaterialTheme.colorScheme.primary,
         titleContentColor = MaterialTheme.colorScheme.tertiary,
     ), title = {
-        Text("Com qual combustível?")
+        Text("Fuel Insight", style = MaterialTheme.typography.labelLarge.copy(
+            color = MaterialTheme.colorScheme.tertiary
+        ))
     })
 }

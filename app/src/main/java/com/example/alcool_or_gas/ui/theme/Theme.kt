@@ -13,35 +13,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Red20,
-    secondary = Black,
-    tertiary = White,
-    background = Blue60,
-    onBackground = Black
-
+    primary = DarkGreen,       // Verde Escuro como cor principal
+    secondary = DarkBlue,     // Azul Escuro como cor secundária
+    tertiary = Orange,        // Laranja como cor terciária
+    background = DarkBlack,   // Preto como fundo
+    onBackground = DarkWhite, // Branco para o texto sobre o fundo preto
+    surface = DarkBlack,      // Fundo de superfície também em preto
+    onSurface = White         // Branco para o texto sobre a superfície preta
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Red80,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = LightGreen,      // Verde Claro como cor principal
+    secondary = LightBlue,    // Azul Claro como cor secundária
+    tertiary = Yellow,        // Amarelo como cor terciária
+    background = White,       // Branco como fundo
+    onBackground = DarkGray,  // Texto em cinza escuro sobre fundo branco
+    surface = LightGray,      // Superfície em cinza claro
+    onSurface = DarkGray      // Texto em cinza escuro sobre a superfície
 )
 
 @Composable
 fun Alcool_or_gasTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false, // Deixa as cores do usuários sobreescrever as suas
+    dynamicColor: Boolean = false, // Deixa as cores do usuário sobrescrever as suas
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -55,8 +50,8 @@ fun Alcool_or_gasTheme(
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme, // colorScheme
-        typography = Typography,
+        colorScheme = colorScheme, // Usando o colorScheme gerado
+        typography = Typography,    // Defina sua tipografia aqui
         content = content
     )
 }
