@@ -104,12 +104,12 @@ fun App(name: String, modifier: Modifier = Modifier) {
                     text = "Preço da gasolina:", fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                 )
-                gasInput()
+                GasInput()
                 Text(
                     text = "Preço da Alcool:", fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                 )
-                gasInput()
+                GasInput()
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -178,13 +178,26 @@ fun Switch70Or75() {
 
 }
 
+
+private fun priceValidator(text:String) : Boolean{
+    val pattern = Regex("^\\d+(,\\d*)?\$")
+    return (text.isEmpty() || text.matches(pattern) ) && text.count {it == ','} <= 1
+}
+
 @Composable
-fun gasInput() {
+fun GasInput() {
     var text by remember { mutableStateOf("") }
+
 
     OutlinedTextField(
         value = text, // The current text value
-        onValueChange = { newText -> text = newText },
+        onValueChange = {
+            text = if (priceValidator(it)) {
+                it
+            } else {
+                it.substring(0,it.length -1)
+            }
+        },
         placeholder = {
             Text("Ex: 5,4")
         },
