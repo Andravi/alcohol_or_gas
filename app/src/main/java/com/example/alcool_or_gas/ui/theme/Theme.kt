@@ -13,23 +13,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = DarkGreen,       // Verde Escuro como cor principal
-    secondary = DarkBlue,     // Azul Escuro como cor secundária
-    tertiary = Orange,        // Laranja como cor terciária
-    background = DarkBlack,   // Preto como fundo
-    onBackground = DarkWhite, // Branco para o texto sobre o fundo preto
-    surface = DarkBlack,      // Fundo de superfície também em preto
-    onSurface = White         // Branco para o texto sobre a superfície preta
+    primary = DarkGreen,
+    secondary = DarkBlue,
+    tertiary = Orange,
+    background = White,
+    onBackground = LightGray,
+    surface = DarkGray,
+    onSurface = DarkBlack
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = LightGreen,      // Verde Claro como cor principal
-    secondary = LightBlue,    // Azul Claro como cor secundária
-    tertiary = Yellow,        // Amarelo como cor terciária
-    background = White,       // Branco como fundo
-    onBackground = DarkGray,  // Texto em cinza escuro sobre fundo branco
-    surface = LightGray,      // Superfície em cinza claro
-    onSurface = DarkGray      // Texto em cinza escuro sobre a superfície
+    primary = DarkGreen,
+    secondary = LightBlue,
+    tertiary = Orange,
+    background = DarkBlack,
+    onBackground = DarkGray,
+    surface = LightGray,
+    onSurface = White
 )
 
 @Composable
@@ -45,8 +45,8 @@ fun Alcool_or_gasTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> LightColorScheme
+        else -> DarkColorScheme
     }
 
     MaterialTheme(
