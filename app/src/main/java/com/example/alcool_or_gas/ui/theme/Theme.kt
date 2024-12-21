@@ -50,8 +50,8 @@ fun Alcool_or_gasTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme, // Usando o colorScheme gerado
-        typography = Typography,    // Defina sua tipografia aqui
+        colorScheme = colorScheme,
+        typography = Typography,  
         content = content
     )
 }

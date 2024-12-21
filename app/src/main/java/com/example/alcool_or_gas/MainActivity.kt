@@ -40,6 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +59,9 @@ import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         enableEdgeToEdge()
         setContent {
             Alcool_or_gasTheme {
@@ -71,14 +75,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun calcular() {
+
+fun isAlcoolBetter(a: Double, g: Double, factor: Float): Boolean {
+    val rent = a / g
+    println(rent)
+    if (rent <= factor) {
+        return true
+    }
+
+    return false
+}
+
+
+fun calcular(alcoolText: String, gasText: String, checked: Boolean) {
     Log.d("testes", "Funciona")
+
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(name: String, modifier: Modifier = Modifier) {
+
+    var alcoolText by rememberSaveable { mutableStateOf("") }
+    var gasText by rememberSaveable { mutableStateOf("") }
+    var checked by rememberSaveable { mutableStateOf(false) }
+    var res: Boolean? by rememberSaveable { mutableStateOf(null) }
+
     Scaffold(topBar = { topbar() }) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -116,26 +139,152 @@ fun App(name: String, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.align(Alignment.Start).padding(48.dp,4.dp),
                 )
-                gasInput()
+
                 Spacer(modifier = Modifier.size(0.dp,16.dp))
+
+                OutlinedTextField(
+                    value = gasText, // The current text value
+                    onValueChange = {
+                        gasText = if (priceValidator(it)) {
+                            it
+                        } else {
+                            it.substring(0, it.length - 1)
+                        }
+                    },
+                    placeholder = {
+                        Text("Ex: 5,4")
+                    },
+                    prefix = {
+                        Text(
+                            "R$ ",
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        cursorColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                        focusedLabelColor = MaterialTheme.colorScheme.secondary,
+                        focusedTextColor = MaterialTheme.colorScheme.secondary,
+                        focusedBorderColor = MaterialTheme.colorScheme.secondary,
+                    ),
+                )
+
                 Text(
                     text = "Preço da Álcool:", fontSize = 22.sp,
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.align(Alignment.Start).padding(48.dp,8.dp),
                 )
-                gasInput()
+
                 Spacer(modifier = Modifier.size(0.dp,24.dp))
+
+                OutlinedTextField(
+                    value = alcoolText, // The current text value
+                    onValueChange = {
+                        alcoolText = if (priceValidator(it)) {
+                            it
+                        } else {
+                            it.substring(0, it.length - 1)
+                        }
+                    },
+                    placeholder = {
+                        Text("Ex: 5,4")
+                    },
+                    prefix = {
+                        Text(
+                            "R$ ",
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        cursorColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                        focusedLabelColor = MaterialTheme.colorScheme.secondary,
+                        focusedTextColor = MaterialTheme.colorScheme.secondary,
+                        focusedBorderColor = MaterialTheme.colorScheme.secondary,
+                    ),
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.size(width = 130.dp, 32.dp)
                 ) {
-                    Text("70%", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                    Switch70Or75()
-                    Text("75%", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+
+                    //Text("70%", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    //Switch70Or75()
+                    //Text("75%", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                 }
 
-                CalculateButton { calcular() }
+                //CalculateButton { calcular() }
+
+                    Text("70%", fontWeight = FontWeight.Bold)
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = {
+                            checked = it
+                        },
+                        thumbContent = if (checked) {
+                            {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        } else {
+                            {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        }
+                    )
+                    Text("75%", fontWeight = FontWeight.Bold)
+                }
+
+                Text(text = "Preencha os dados e Calcule!", fontStyle = FontStyle.Italic)
+
+                resultado(res)
+                Button(
+                    onClick = {
+
+                        res = isAlcoolBetter(
+                            alcoolText.let {
+                                if (it.isNotEmpty()) {
+                                    it.replace(',', '.').toDouble()
+                                } else {
+                                    0.0
+                                }
+                            },
+                            gasText.let {
+                                if (it.isNotEmpty()) {
+                                    it.replace(',', '.').toDouble()
+                                } else {
+                                    0.0
+                                }
+                            },
+                            if (checked) 0.75f else 0.70f
+                        )
+                        Log.d("teste",res.toString())
+                    },
+                    enabled = true,
+                    contentPadding = PaddingValues(42.dp, 12.dp),
+                    modifier = Modifier.padding(top = 40.dp)
+                ) {
+                    Text(
+                        "CALCULAR",
+                        color = MaterialTheme.colorScheme.tertiary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        letterSpacing = 1.sp,
+                    )
+                }
+
 
 
             }
@@ -145,6 +294,7 @@ fun App(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
+
 fun CalculateButton(onClick: () -> Unit) {
     Button(
         onClick = { onClick() },
@@ -159,46 +309,88 @@ fun CalculateButton(onClick: () -> Unit) {
             fontSize = 20.sp,
             letterSpacing = 1.sp,
         )
+
+fun resultado(bool: Boolean?) {
+
+
+    if (bool == null) {
+        return
+    }
+    if (bool) {
+        Text(text = "Compensa", fontStyle = FontStyle.Italic)
+    } else {
+        Text(text = "Não compensa", fontStyle = FontStyle.Italic)
+
     }
 }
 
 @Composable
-fun Switch70Or75() {
-    var checked by remember { mutableStateOf(false) }
+fun CalculateButton(onClick: () -> Unit) {
+//    Button(
+//        onClick = {
+//            isAlcoolBetter(
+//                alcoolText.let {
+//                    if (it.isNotEmpty()) {
+//                        it.replace(',', '.').toDouble()
+//                    } else {
+//                        0.0
+//                    }
+//                },
+//                gasText.let {
+//                    if (it.isNotEmpty()) {
+//                        it.replace(',', '.').toDouble()
+//                    } else {
+//                        0.0
+//                    }
+//                },
+//                if (checked) 0.75f else 0.70f
+//            )
+//        },
+//        enabled = true,
+//        contentPadding = PaddingValues(42.dp, 12.dp),
+//        modifier = Modifier.padding(top = 40.dp)
+//    ) {
+//        Text(
+//            "Calcular",
+//            color = MaterialTheme.colorScheme.tertiary,
+//            fontWeight = FontWeight.Bold,
+//            fontSize = 16.sp
+//        )
+//    }
+}
 
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        },
-        thumbContent = if (checked) {
-            {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        }
-    )
+@Composable
+fun Switch70Or75() {
+
+
+}
+
+
+private fun priceValidator(text: String): Boolean {
+    val pattern = Regex("^\\d+(,\\d*)?\$")
+    return (text.isEmpty() || text.matches(pattern)) && text.count { it == ',' } <= 1
+}
+
+
+@Composable
+fun AlcoolInput() {
 
 }
 
 @Composable
-fun gasInput() {
-    var text by remember { mutableStateOf("") }
+fun GasInput(t: String) {
+    var text = t
+
 
     TextField(
         value = text, // The current text value
-        onValueChange = { newText -> text = newText },
+        onValueChange = {
+            text = if (priceValidator(it)) {
+                it
+            } else {
+                it.substring(0, it.length - 1)
+            }
+        },
         placeholder = {
             Text("Digite o preço do litro, Ex: 5,40", color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Thin)
         },
