@@ -55,7 +55,7 @@ fun Alcool_or_gasTheme(
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme, // colorScheme
+        colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
