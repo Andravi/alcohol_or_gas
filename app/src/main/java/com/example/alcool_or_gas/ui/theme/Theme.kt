@@ -13,35 +13,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Red20,
-    secondary = Black,
-    tertiary = White,
-    background = Blue60,
-    onBackground = Black
-
+    primary = DarkGreen,
+    secondary = DarkBlue,
+    tertiary = Orange,
+    background = White,
+    onBackground = LightGray,
+    surface = DarkGray,
+    onSurface = DarkBlack
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Red80,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = DarkGreen,
+    secondary = LightBlue,
+    tertiary = Orange,
+    background = DarkBlack,
+    onBackground = DarkGray,
+    surface = LightGray,
+    onSurface = White
 )
 
 @Composable
 fun Alcool_or_gasTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false, // Deixa as cores do usuários sobreescrever as suas
+    dynamicColor: Boolean = false, // Deixa as cores do usuário sobrescrever as suas
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,13 +45,13 @@ fun Alcool_or_gasTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> LightColorScheme
+        else -> DarkColorScheme
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = Typography,  
         content = content
     )
 }

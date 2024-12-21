@@ -2,21 +2,19 @@ package com.example.alcool_or_gas.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-val Red80 = Color(0xFFEFB8DD)
+// Cores principais
+val LightGreen = Color(0xFFA3D9A5)  // Verde Claro
+val LightBlue = Color(0xFF66AEDD)   // Azul Claro
+val LightGray = Color(0xFFD1D1D1)   // Cinza Claro
+val Yellow = Color(0xFFF4D03F)      // Amarelo
+val DarkGray = Color(0xFF4A4A4A)    // Cinza Escuro
+val White = Color.White             // Branco
+val Orange = Color(0xFFF39C12)      // Laranja
 
+// Cores para elementos escuros
+val DarkGreen = Color(0xFF2E8B57)   // Verde Escuro (para elementos destacados)
+val DarkBlue = Color(0xFF1D6E87)    // Azul Escuro (para fundos ou destaques)
 
-// Dark
-val Red20 = Color(0xFFAF0000)
-val Blue60 =  Color(0xFF29A9AB)
-val Black = Color.Black
-val White = Color.White
-
-
-
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Cores para o modo escuro
+val DarkBlack = Color(0xFF000000)   // Preto
+val DarkWhite = Color(0xFFFAFAFA)   // Branco para modo escuro (mais suave)
