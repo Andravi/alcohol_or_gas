@@ -104,7 +104,7 @@ fun ResultadoText(bool: Boolean?) {
 }
 
 @Composable
-fun FuelInput(t: String, onChangeText: (String) -> Unit) {
+fun FuelInput(t: String, onChangeText: (String) -> Unit, tipo:String) {
     var text = t
 
     TextField(
@@ -119,7 +119,7 @@ fun FuelInput(t: String, onChangeText: (String) -> Unit) {
         },
         placeholder = {
             Text(
-                "Digite o preço do litro, Ex: 5,40",
+                "Digite o preço de ${tipo}, Ex: 5,40",
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Thin
             )

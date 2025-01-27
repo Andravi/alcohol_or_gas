@@ -134,7 +134,7 @@ fun App(modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 
-                FuelInput(gasText, onChangeText = { gasText = it })
+                FuelInput(gasText, onChangeText = { gasText = it }, "Gasolina")
 
                 Text(
                     text = "Preço da Álcool:", fontSize = 22.sp,
@@ -146,7 +146,7 @@ fun App(modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.size(0.dp, 24.dp))
 
-                FuelInput(alcoolText, onChangeText = { alcoolText = it })
+                FuelInput(alcoolText, onChangeText = { alcoolText = it }, "Alcool")
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 
