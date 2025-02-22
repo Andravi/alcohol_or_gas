@@ -1,6 +1,8 @@
 package com.example.alcool_or_gas.ui.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,14 +21,18 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.alcool_or_gas.priceValidator
+import com.example.alcool_or_gas.R
+import com.example.alcool_or_gas.views.priceValidator
 
 @Composable
 fun ResButton(onResActi: () -> Unit) {
@@ -104,7 +110,7 @@ fun ResultadoText(bool: Boolean?) {
 }
 
 @Composable
-fun FuelInput(t: String, onChangeText: (String) -> Unit, tipo:String) {
+fun FuelInput(t: String, onChangeText: (String) -> Unit, tipo: String) {
     var text = t
 
     TextField(
@@ -151,10 +157,19 @@ fun TopBar() {
         containerColor = MaterialTheme.colorScheme.primary,
         titleContentColor = MaterialTheme.colorScheme.tertiary,
     ), title = {
-        Text(
-            "Fuel Insight", style = MaterialTheme.typography.labelLarge.copy(
-                color = MaterialTheme.colorScheme.tertiary
+        Row (verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = R.drawable.fuel_insight_logo_removebg),
+                contentDescription = "some thing",
+                modifier = Modifier.size(
+                    80.dp
+                )
             )
-        )
+            Text(
+                "Fuel Insight", style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            )
+        }
     })
 }
