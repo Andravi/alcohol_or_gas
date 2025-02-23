@@ -18,13 +18,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,10 +38,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,8 +59,9 @@ import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AlcoolOrGas(navController: NavHostController, check: Boolean) {
+fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
     val context = LocalContext.current
+    var gasStationName by rememberSaveable { mutableStateOf("") }
     var alcoolText by rememberSaveable { mutableStateOf("") }
     var gasText by rememberSaveable { mutableStateOf("") }
     var checked by rememberSaveable { mutableStateOf(check) }
@@ -61,7 +70,7 @@ fun AlcoolOrGas(navController: NavHostController, check: Boolean) {
     Scaffold(topBar = { TopBar() }, floatingActionButton = {
         FloatingActionButton(
             onClick = {
-                navController.navigate("ListaDePostos/add/")
+                navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText")
             },
         ) {
             Icon(Icons.Filled.Add, "Inserir Posto")
@@ -84,7 +93,24 @@ fun AlcoolOrGas(navController: NavHostController, check: Boolean) {
                     .size(500.dp, 800.dp)
                     .padding(0.dp, 16.dp)
             ) {
-                Spacer(Modifier.padding(top = 100.dp))
+
+                Row(
+                    Modifier
+                        .padding(top = 45.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Veja os postos já cadastrados ->  ")
+                    FloatingActionButton(
+                        onClick = {
+                            navController?.navigate("ListaDePostos////")
+                        },
+                    ) {
+                        Icon(Icons.AutoMirrored.Filled.List, "Ver Postos")
+                    }
+                }
                 Text(
                     text = "Qual o Combustível mais vantajoso ?",
                     fontSize = 25.sp,
@@ -101,6 +127,37 @@ fun AlcoolOrGas(navController: NavHostController, check: Boolean) {
                 )
 
                 Spacer(modifier = Modifier.size(0.dp, 32.dp))
+
+                Text(
+                    text = "Nome do Posto (Opcional):", fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(48.dp, 8.dp),
+                )
+
+                TextField(
+                    value = gasStationName, // The current text value
+                    onValueChange = {
+                        gasStationName = it
+
+                    },
+                    placeholder = {
+                        Text(
+                            "Digite o nome do Posto",
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Thin
+                        )
+                    },
+                    colors = TextFieldDefaults.colors(
+                        cursorColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedContainerColor = Color.Transparent,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                        focusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                    )
+                )
 
                 Text(
                     text = "Preço da Gasolina:", fontSize = 22.sp,
@@ -188,10 +245,10 @@ fun saveConfig(context: Context, switch_state: Boolean) {
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun AppPreview() {
-//    Alcool_or_gasTheme {
-//        AlcoolOrGas()
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun AppPreview() {
+    Alcool_or_gasTheme {
+        AlcoolOrGas(navController = null, false)
+    }
+}

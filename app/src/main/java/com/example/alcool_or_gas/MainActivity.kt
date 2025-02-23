@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.alcool_or_gas.data.GasStation
 import com.example.alcool_or_gas.ui.composables.FuelInput
 import com.example.alcool_or_gas.ui.composables.ResButton
 import com.example.alcool_or_gas.ui.composables.ResultadoText
@@ -47,7 +48,7 @@ import com.example.alcool_or_gas.ui.composables.Switch70Or75
 import com.example.alcool_or_gas.ui.composables.TopBar
 import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
 import com.example.alcool_or_gas.views.AlcoolOrGas
-import com.example.alcool_or_gas.views.gasStations
+import com.example.alcool_or_gas.views.GasStations
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +60,8 @@ class MainActivity : ComponentActivity() {
                 val navController: NavHostController = rememberNavController()
                 NavHost(navController = navController, startDestination = "home") {
 //                    composable("welcome") { Welcome(navController) }
-                    composable("home") { AlcoolOrGas(navController,check) }
-                    composable("listaDePostos/{add}/{posto}") { backStackEntry ->
+                    composable("home") { AlcoolOrGas(navController, check) }
+                    composable("listaDePostos/{add}/{posto}/{alcool}/{gas}") { backStackEntry ->
 
                         val add = backStackEntry.arguments?.getString("add") ?: ""
 
@@ -68,10 +69,27 @@ class MainActivity : ComponentActivity() {
 
 
                             val posto = backStackEntry.arguments?.getString("posto") ?: ""
-                            gasStations(navController, add, posto)
+                            var alcool = backStackEntry.arguments?.getString("alcool") ?: ""
+                            var gas = backStackEntry.arguments?.getString("gas") ?: ""
+
+                            if (gas == "" || alcool == "") {
+                                gas = "0"
+                                alcool = "0"
+                            }
+
+
+                            GasStations(
+                                navController,
+                                add,
+                                GasStation(
+                                    posto,
+                                    gas.replace(',', '.').toDouble(),
+                                    alcool.replace(',', '.').toDouble()
+                                )
+                            )
                         } else {
 
-                            gasStations(navController, "", "")
+                            GasStations(navController, "", GasStation(""))
 
                         }
                     }
@@ -80,9 +98,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    fun loadConfig(context: Context):Boolean{
-        val sharedFileName="config_Alc_ou_Gas"
-        val sp: SharedPreferences = context.getSharedPreferences(sharedFileName, Context.MODE_PRIVATE)
+
+    fun loadConfig(context: Context): Boolean {
+        val sharedFileName = "config_Alc_ou_Gas"
+        val sp: SharedPreferences =
+            context.getSharedPreferences(sharedFileName, Context.MODE_PRIVATE)
         val is_75_checked = sp.getBoolean("is_75_checked", false)
         return is_75_checked
     }

@@ -113,6 +113,7 @@ fun ResultadoText(bool: Boolean?) {
 fun FuelInput(t: String, onChangeText: (String) -> Unit, tipo: String) {
     var text = t
 
+
     TextField(
         value = text, // The current text value
         onValueChange = {
