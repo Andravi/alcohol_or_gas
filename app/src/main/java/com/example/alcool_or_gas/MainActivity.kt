@@ -3,11 +3,13 @@ package com.example.alcool_or_gas
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +42,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.alcool_or_gas.data.Coordinates
 import com.example.alcool_or_gas.data.GasStation
 import com.example.alcool_or_gas.ui.composables.FuelInput
 import com.example.alcool_or_gas.ui.composables.ResButton
@@ -51,6 +54,7 @@ import com.example.alcool_or_gas.views.AlcoolOrGas
 import com.example.alcool_or_gas.views.GasStations
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -59,9 +63,8 @@ class MainActivity : ComponentActivity() {
             Alcool_or_gasTheme {
                 val navController: NavHostController = rememberNavController()
                 NavHost(navController = navController, startDestination = "home") {
-//                    composable("welcome") { Welcome(navController) }
                     composable("home") { AlcoolOrGas(navController, check) }
-                    composable("listaDePostos/{add}/{posto}/{alcool}/{gas}") { backStackEntry ->
+                    composable("listaDePostos/{add}/{posto}/{alcool}/{gas}/{lat}/{long}") { backStackEntry ->
 
                         val add = backStackEntry.arguments?.getString("add") ?: ""
 
@@ -71,6 +74,8 @@ class MainActivity : ComponentActivity() {
                             val posto = backStackEntry.arguments?.getString("posto") ?: ""
                             var alcool = backStackEntry.arguments?.getString("alcool") ?: ""
                             var gas = backStackEntry.arguments?.getString("gas") ?: ""
+                            var lat = backStackEntry.arguments?.getString("lat") ?: ""
+                            var long = backStackEntry.arguments?.getString("long") ?: ""
 
                             if (gas == "" || alcool == "") {
                                 gas = "0"
@@ -84,7 +89,8 @@ class MainActivity : ComponentActivity() {
                                 GasStation(
                                     posto,
                                     gas.replace(',', '.').toDouble(),
-                                    alcool.replace(',', '.').toDouble()
+                                    alcool.replace(',', '.').toDouble(),
+                                    Coordinates(lat.toDouble(), long.toDouble())
                                 )
                             )
                         } else {

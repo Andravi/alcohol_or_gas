@@ -170,7 +170,7 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
                                         modifier = Modifier.padding(horizontal = 16.dp)
                                     )
                                     Text(
-                                        "Gas: R$ ${item.alcoolPrice.toString()}",
+                                        "Alcool: R$ ${item.alcoolPrice.toString()}",
                                         modifier = Modifier.padding(horizontal = 16.dp)
                                     )
                                 }

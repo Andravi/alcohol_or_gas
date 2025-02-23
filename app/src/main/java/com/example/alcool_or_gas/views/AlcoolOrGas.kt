@@ -6,7 +6,11 @@ import com.example.alcool_or_gas.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +36,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import com.example.alcool_or_gas.ui.composables.FuelInput
 import com.example.alcool_or_gas.ui.composables.ResButton
@@ -55,6 +62,7 @@ import com.example.alcool_or_gas.ui.composables.ResultadoText
 import com.example.alcool_or_gas.ui.composables.Switch70Or75
 import com.example.alcool_or_gas.ui.composables.TopBar
 import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
+import com.google.android.gms.location.LocationServices
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -67,10 +75,59 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
     var checked by rememberSaveable { mutableStateOf(check) }
     var res: Boolean? by rememberSaveable { mutableStateOf(null) }
 
+    // Por causa do tempo a parte de escolha será para quando tiver mais tempo
+    // Melhorar para que caso não tenha a localização usar a padrão
+
+    val requestPermissionsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        permissions.entries.forEach {
+            Log.d("DEBUG", "${it.key} = ${it.value}")
+        }
+    }
+    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    var location = remember { mutableStateOf<Location?>(null) }
+    LaunchedEffect(Unit) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request permissions
+            requestPermissionsLauncher.launch(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+            return@LaunchedEffect
+        }
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { locatio : Location? ->
+                // Got last known location. In some rare situations this can be null.
+                location.value = locatio
+                Log.d("teste", locatio.toString())
+                Log.d("teste", location.value.toString())
+            }
+        fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
+            location.value = loc
+
+        }
+    }
+
+
+
     Scaffold(topBar = { TopBar() }, floatingActionButton = {
         FloatingActionButton(
             onClick = {
-                navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText")
+                Log.d("teste", location.value!!.latitude.toString())
+                val lat = location.value!!.latitude.toString()
+                val long = location.value!!.longitude.toString()
+                navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText/$lat/$long")
             },
         ) {
             Icon(Icons.Filled.Add, "Inserir Posto")
@@ -102,7 +159,10 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Veja os postos já cadastrados ->  ")
+                    Text(
+                        "Veja os postos já cadastrados ->  ",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                     FloatingActionButton(
                         onClick = {
                             navController?.navigate("ListaDePostos////")
