@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name" translatable="false">Fuel Insight</string>
+    <string name="inserir_posto">Inserir Posto</string>
+    <string name="veja_os_postos_j_cadastrados"><![CDATA["Veja os postos já cadastrados ->  "]]></string>
+    <string name="ver_postos">Ver Postos</string>
+    <string name="qual_o_combust_vel_mais_vantajoso">Qual o Combustível mais vantajoso ?</string>
+    <string name="preencha_os_valores_e_calcule">Preencha os valores e Calcule!</string>
+    <string name="nome_do_posto_opcional">Nome do Posto (Opcional):</string>
+    <string name="digite_o_nome_do_posto">Digite o nome do Posto</string>
+    <string name="pre_o_da_gasolina">Preço da Gasolina:</string>
+    <string name="gasolina">Gasolina</string>
+    <string name="pre_o_da_lcool">Preço da Álcool:</string>
+    <string name="alcool">Alcool</string>
+    <string name="calcular">CALCULAR</string>
+    <string name="compensa">Compensa</string>
+    <string name="n_o_compensa">Não compensa</string>
+    <string name="digite_o_pre_o_de_ex_5_40">Digite o preço de %1$s, Ex: 5,40</string>
+    <string name="editado">Editado!</string>
+    <string name="gas_r">Gas: R$ %1$s</string>
+    <string name="alcool_r">Alcool: R$ %1$s</string>
+    <string name="editar">Editar</string>
+    <string name="apagado">apagado</string>
+    <string name="deletar">Deletar</string>
+    <string name="fa_a_os_ajustes_e_aperte_em_salvar">Faça os ajustes e aperte em Salvar</string>
+    <string name="fechar">Fechar</string>
+    <string name="salvar">Salvar</string>
+    <string name="informa_es_adicionais">Informações Adicionais</string>
+    <string name="nome">Nome:</string>
+    <string name="pre_o_do_alcool">"Preço do Alcool: "</string>
+    <string name="data_de_cadastro">"Data de Cadastro: "</string>
+    <string name="abrir_no_maps">Abrir no Maps</string>
 </resources>

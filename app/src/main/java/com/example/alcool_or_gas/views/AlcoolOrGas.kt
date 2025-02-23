@@ -1,8 +1,5 @@
 package com.example.alcool_or_gas.views
 
-import com.example.alcool_or_gas.R
-
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,7 +8,6 @@ import android.location.Location
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,12 +18,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,16 +39,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
+import com.example.alcool_or_gas.R
 import com.example.alcool_or_gas.ui.composables.FuelInput
 import com.example.alcool_or_gas.ui.composables.ResButton
 import com.example.alcool_or_gas.ui.composables.ResultadoText
@@ -113,10 +106,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                 Log.d("teste", locatio.toString())
                 Log.d("teste", location.value.toString())
             }
-        fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
-            location.value = loc
-
-        }
+        // Atualmente está com um erro que demora até pegar a localização atual
     }
 
 
@@ -130,7 +120,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                 navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText/$lat/$long")
             },
         ) {
-            Icon(Icons.Filled.Add, "Inserir Posto")
+            Icon(Icons.Filled.Add, stringResource(R.string.inserir_posto))
         }
     }) {
         Column(
@@ -160,19 +150,19 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        "Veja os postos já cadastrados ->  ",
+                        stringResource(R.string.veja_os_postos_j_cadastrados),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     FloatingActionButton(
                         onClick = {
-                            navController?.navigate("ListaDePostos////")
+                            navController?.navigate("listaDePostos//////")
                         },
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.List, "Ver Postos")
+                        Icon(Icons.AutoMirrored.Filled.List, stringResource(R.string.ver_postos))
                     }
                 }
                 Text(
-                    text = "Qual o Combustível mais vantajoso ?",
+                    text = stringResource(R.string.qual_o_combust_vel_mais_vantajoso),
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
@@ -181,7 +171,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                 )
 
                 Text(
-                    text = "Preencha os valores e Calcule!",
+                    text = stringResource(R.string.preencha_os_valores_e_calcule),
                     fontStyle = FontStyle.Italic,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -189,7 +179,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                 Spacer(modifier = Modifier.size(0.dp, 32.dp))
 
                 Text(
-                    text = "Nome do Posto (Opcional):", fontSize = 22.sp,
+                    text = stringResource(R.string.nome_do_posto_opcional), fontSize = 22.sp,
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -204,7 +194,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                     },
                     placeholder = {
                         Text(
-                            "Digite o nome do Posto",
+                            stringResource(R.string.digite_o_nome_do_posto),
                             color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Thin
                         )
@@ -220,7 +210,7 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                 )
 
                 Text(
-                    text = "Preço da Gasolina:", fontSize = 22.sp,
+                    text = stringResource(R.string.pre_o_da_gasolina), fontSize = 22.sp,
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -229,10 +219,11 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 
-                FuelInput(gasText, onChangeText = { gasText = it }, "Gasolina")
+                FuelInput(gasText, onChangeText = { gasText = it },
+                    stringResource(R.string.gasolina))
 
                 Text(
-                    text = "Preço da Álcool:", fontSize = 22.sp,
+                    text = stringResource(R.string.pre_o_da_lcool), fontSize = 22.sp,
                     fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -241,7 +232,8 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
 
                 Spacer(modifier = Modifier.size(0.dp, 24.dp))
 
-                FuelInput(alcoolText, onChangeText = { alcoolText = it }, "Alcool")
+                FuelInput(alcoolText, onChangeText = { alcoolText = it },
+                    stringResource(R.string.alcool))
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fuel Insight</string>
+    <string name="inserir_posto">Insert Station</string>
+    <string name="veja_os_postos_j_cadastrados"><![CDATA["See already registered stations ->  "]]></string>
+    <string name="ver_postos">View Stations</string>
+    <string name="qual_o_combust_vel_mais_vantajoso">Which Fuel is More Advantageous?</string>
+    <string name="preencha_os_valores_e_calcule">Fill in the values and Calculate!</string>
+    <string name="nome_do_posto_opcional">Station Name (Optional):</string>
+    <string name="digite_o_nome_do_posto">Enter the Station Name</string>
+    <string name="pre_o_da_gasolina">Gasoline Price:</string>
+    <string name="gasolina">Gasoline</string>
+    <string name="pre_o_da_lcool">Alcohol Price:</string>
+    <string name="alcool">Alcohol</string>
+    <string name="calcular">CALCULATE</string>
+    <string name="compensa">Worth It</string>
+    <string name="n_o_compensa">Not Worth It</string>
+    <string name="digite_o_pre_o_de_ex_5_40">Enter the price of %1$s, Ex: 5.40</string>
+    <string name="editado">Edited!</string>
+    <string name="gas_r">Gas: $ %1$s</string>
+    <string name="alcool_r">Alcohol: $ %1$s</string>
+    <string name="editar">Edit</string>
+    <string name="apagado">Deleted</string>
+    <string name="deletar">Delete</string>
+    <string name="fa_a_os_ajustes_e_aperte_em_salvar">Make adjustments and press Save</string>
+    <string name="fechar">Close</string>
+    <string name="salvar">Save</string>
+    <string name="informa_es_adicionais">Additional Information</string>
+    <string name="nome">Name:</string>
+    <string name="pre_o_do_alcool">"Alcohol Price: "</string>
+    <string name="data_de_cadastro">"Registration Date: "</string>
+    <string name="abrir_no_maps">Open in Maps</string>
+</resources>

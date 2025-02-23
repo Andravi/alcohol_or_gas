@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,7 +44,7 @@ fun ResButton(onResActi: () -> Unit) {
         modifier = Modifier.padding(top = 40.dp)
     ) {
         Text(
-            "CALCULAR",
+            stringResource(R.string.calcular),
             color = MaterialTheme.colorScheme.tertiary,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
@@ -95,13 +96,13 @@ fun ResultadoText(bool: Boolean?) {
     }
     if (bool) {
         Text(
-            text = "Compensa",
+            text = stringResource(R.string.compensa),
             fontStyle = FontStyle.Italic,
             color = MaterialTheme.colorScheme.onSurface
         )
     } else {
         Text(
-            text = "Não compensa",
+            text = stringResource(R.string.n_o_compensa),
             fontStyle = FontStyle.Italic,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -126,7 +127,7 @@ fun FuelInput(t: String, onChangeText: (String) -> Unit, tipo: String) {
         },
         placeholder = {
             Text(
-                "Digite o preço de ${tipo}, Ex: 5,40",
+                stringResource(R.string.digite_o_pre_o_de_ex_5_40, tipo),
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Thin
             )

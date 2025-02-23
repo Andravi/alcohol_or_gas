@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import com.example.alcool_or_gas.R
 import com.example.alcool_or_gas.data.Coordinates
 import com.example.alcool_or_gas.data.GasStation
 import com.example.alcool_or_gas.data.GasStationList
@@ -140,7 +142,8 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
                                     gasStationList.list[selecionateItem] = pos
                                     // Falta salvar
                                     saveGasStationList(context, gasStationList)
-                                    Toast.makeText(context, "Editado!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context,
+                                        context.getString(R.string.editado), Toast.LENGTH_SHORT).show()
                                 },
                                 gas = gasText.replace('.', ','),
                                 alcool = alcoolText.replace('.', ',')
@@ -166,11 +169,14 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
 
                                 Row {
                                     Text(
-                                        "Gas: R$ ${item.gasPrice.toString()}",
+                                        stringResource(R.string.gas_r, item.gasPrice.toString()),
                                         modifier = Modifier.padding(horizontal = 16.dp)
                                     )
                                     Text(
-                                        "Alcool: R$ ${item.alcoolPrice.toString()}",
+                                        stringResource(
+                                            R.string.alcool_r,
+                                            item.alcoolPrice.toString()
+                                        ),
                                         modifier = Modifier.padding(horizontal = 16.dp)
                                     )
                                 }
@@ -185,18 +191,19 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
                                         alcoolText = item.alcoolPrice.toString()
                                     },
                                 ) {
-                                    Icon(Icons.Rounded.Edit, "Editar")
+                                    Icon(Icons.Rounded.Edit, stringResource(R.string.editar))
                                 }
                                 IconButton(
                                     onClick = {
                                         deletegasStation(context, item, gasStationList)
                                         gasStationList.list.remove(item)
-                                        Toast.makeText(context, "apagado", Toast.LENGTH_SHORT)
+                                        Toast.makeText(context,
+                                            context.getString(R.string.apagado), Toast.LENGTH_SHORT)
                                             .show()
                                         sair(navController)
                                     },
                                 ) {
-                                    Icon(Icons.Rounded.Delete, "Deletar")
+                                    Icon(Icons.Rounded.Delete, stringResource(R.string.deletar))
                                 }
                             }
                         }
@@ -253,11 +260,11 @@ fun DialogEdition(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Faça os ajustes e aperte em Salvar",
+                    text = stringResource(R.string.fa_a_os_ajustes_e_aperte_em_salvar),
                     modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurface,
                 )
-                FuelInput(gasText, onChangeText = onChangeTextgas, "Gasolina")
-                FuelInput(alcoolText, onChangeText = onChangeTextAlcool, "Alcool")
+                FuelInput(gasText, onChangeText = onChangeTextgas, stringResource(R.string.gasolina))
+                FuelInput(alcoolText, onChangeText = onChangeTextAlcool, stringResource(R.string.alcool))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
@@ -266,13 +273,13 @@ fun DialogEdition(
                         onClick = { onDismissRequest() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Fechar")
+                        Text(stringResource(R.string.fechar))
                     }
                     TextButton(
                         onClick = { onConfirmation() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Salvar")
+                        Text(stringResource(R.string.salvar))
                     }
                 }
             }
@@ -304,7 +311,7 @@ fun DialogInformation(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Informações Adicionais",
+                    text = stringResource(R.string.informa_es_adicionais),
                     modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurface,
                 )
                 Column(
@@ -315,7 +322,7 @@ fun DialogInformation(
                 ) {
                     Text(
                         text = buildAnnotatedString {
-                            append("Nome:")
+                            append(stringResource(R.string.nome))
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
@@ -329,7 +336,7 @@ fun DialogInformation(
                     )
                     Text(
                         text = buildAnnotatedString {
-                            append("Preço do Alcool: ")
+                            append(stringResource(R.string.pre_o_do_alcool))
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
@@ -343,7 +350,7 @@ fun DialogInformation(
                     )
                     Text(
                         text = buildAnnotatedString {
-                            append("Preço da Gasolina: ")
+                            append(stringResource(R.string.pre_o_da_gasolina))
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
@@ -357,7 +364,7 @@ fun DialogInformation(
                     )
                     Text(
                         text = buildAnnotatedString {
-                            append("Data de Cadastro: ")
+                            append(stringResource(R.string.data_de_cadastro))
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
@@ -379,13 +386,13 @@ fun DialogInformation(
                         onClick = { onDismissRequest() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Fechar")
+                        Text(stringResource(R.string.fechar))
                     }
                     TextButton(
                         onClick = { onConfirmation() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Abrir no Maps")
+                        Text(stringResource(R.string.abrir_no_maps))
                     }
                 }
             }
