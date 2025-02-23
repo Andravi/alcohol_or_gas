@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,6 +62,7 @@ import com.example.alcool_or_gas.data.Coordinates
 import com.example.alcool_or_gas.data.GasStation
 import com.example.alcool_or_gas.data.GasStationList
 import com.example.alcool_or_gas.ui.composables.FuelInput
+import com.example.alcool_or_gas.ui.composables.TopBar
 import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -90,16 +94,19 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
     var isDialogInformationDisplay by remember { mutableStateOf(false) }
     var gasText by remember { mutableStateOf("") }
     var alcoolText by rememberSaveable { mutableStateOf("") }
+    var nameText by rememberSaveable { mutableStateOf("") }
+
 
 
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("Lista de Postos") })
+        TopBar()
     }) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.onBackground),
             contentPadding = PaddingValues(16.dp)
         ) {
             items(gasStationList.list) { item ->
@@ -133,20 +140,25 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
                                     val pos = gasStationList.list[selecionateItem]
 
                                     if (gasText.isNotEmpty()) {
-                                        pos.gasPrice = gasText.toDouble()
+                                        pos.gasPrice = gasText.replace(',', '.').toDouble()
                                     }
                                     if (alcoolText.isNotEmpty()) {
-                                        pos.alcoolPrice = alcoolText.toDouble()
+                                        pos.alcoolPrice = alcoolText.replace(',', '.').toDouble()
                                     }
+
+                                    pos.name = nameText
 
                                     gasStationList.list[selecionateItem] = pos
                                     // Falta salvar
                                     saveGasStationList(context, gasStationList)
                                     Toast.makeText(context,
                                         context.getString(R.string.editado), Toast.LENGTH_SHORT).show()
+                                    isDialogEditDisplay = false
                                 },
                                 gas = gasText.replace('.', ','),
-                                alcool = alcoolText.replace('.', ',')
+                                alcool = alcoolText.replace('.', ','),
+                                onChangeTextName = {nameText = it },
+                                name = nameText
                             )
                         }
 
@@ -189,6 +201,7 @@ fun GasStations(navController: NavHostController, add: String, posto: GasStation
                                         selecionateItem = gasStationList.list.indexOf(item)
                                         gasText = item.gasPrice.toString()
                                         alcoolText = item.alcoolPrice.toString()
+                                        nameText = item.name
                                     },
                                 ) {
                                     Icon(Icons.Rounded.Edit, stringResource(R.string.editar))
@@ -232,15 +245,18 @@ fun DialogEditionPreview() {
 
 @Composable
 fun DialogEdition(
+    name: String,
     gas: String,
     alcool: String,
     onChangeTextgas: (String) -> Unit,
     onChangeTextAlcool: (String) -> Unit,
+    onChangeTextName: (String) -> Unit,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
 ) {
     var gasText = gas
     var alcoolText = alcool
+    var nameText = name
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         // Draw a rectangle shape with rounded corners inside the dialog
@@ -263,6 +279,26 @@ fun DialogEdition(
                     text = stringResource(R.string.fa_a_os_ajustes_e_aperte_em_salvar),
                     modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurface,
                 )
+                TextField(
+                    value = nameText, // The current text value
+                    onValueChange = onChangeTextName,
+                    placeholder = {
+                        Text(
+                            stringResource(R.string.digite_o_nome_do_posto),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Thin
+                        )
+                    },
+                    colors = TextFieldDefaults.colors(
+                        cursorColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedContainerColor = Color.Transparent,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                        focusedIndicatorColor = MaterialTheme.colorScheme.tertiary
+                    )
+                )
+
                 FuelInput(gasText, onChangeText = onChangeTextgas, stringResource(R.string.gasolina))
                 FuelInput(alcoolText, onChangeText = onChangeTextAlcool, stringResource(R.string.alcool))
                 Row(
