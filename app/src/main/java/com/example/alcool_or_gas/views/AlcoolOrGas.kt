@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,6 +43,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,7 +58,11 @@ import com.example.alcool_or_gas.ui.composables.ResultadoText
 import com.example.alcool_or_gas.ui.composables.Switch70Or75
 import com.example.alcool_or_gas.ui.composables.TopBar
 import com.example.alcool_or_gas.ui.theme.Alcool_or_gasTheme
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -68,6 +75,9 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
     var checked by rememberSaveable { mutableStateOf(check) }
     var res: Boolean? by rememberSaveable { mutableStateOf(null) }
 
+
+    var hasLocalization by remember { mutableStateOf(false) }
+
     // Por causa do tempo a parte de escolha será para quando tiver mais tempo
     // Melhorar para que caso não tenha a localização usar a padrão
 
@@ -78,8 +88,9 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
             Log.d("DEBUG", "${it.key} = ${it.value}")
         }
     }
+
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    var location = remember { mutableStateOf<Location?>(null) }
+    var location by remember { mutableStateOf<Location?>(null) }
     LaunchedEffect(Unit) {
         if (ActivityCompat.checkSelfPermission(
                 context,
@@ -99,28 +110,47 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
             return@LaunchedEffect
         }
 
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { locatio : Location? ->
-                // Got last known location. In some rare situations this can be null.
-                location.value = locatio
-                Log.d("teste", locatio.toString())
-                Log.d("teste", location.value.toString())
-            }
-        // Atualmente está com um erro que demora até pegar a localização atual
+
     }
 
+    val locationRequest = LocationRequest.Builder(
+        Priority.PRIORITY_HIGH_ACCURACY, 10000L
+    ).setWaitForAccurateLocation(false)
+        .setMinUpdateIntervalMillis(5000L)
+        .setMaxUpdateDelayMillis(10000L)
+        .build()
 
+    // Create location callback
+    val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            for (loc in locationResult.locations) {
+                location = loc
+                if (location != null) {
+                    hasLocalization = true
+                }
+            }
+        }
+    }
+
+    // Start location updates
+    fusedLocationClient.requestLocationUpdates(
+        locationRequest,
+        locationCallback,
+        Looper.getMainLooper()
+    )
+    // Atualmente está com um erro que demora até pegar a localização atual
 
     Scaffold(topBar = { TopBar() }, floatingActionButton = {
-        FloatingActionButton(
-            onClick = {
-                Log.d("teste", location.value!!.latitude.toString())
-                val lat = location.value!!.latitude.toString()
-                val long = location.value!!.longitude.toString()
-                navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText/$lat/$long")
-            },
-        ) {
-            Icon(Icons.Filled.Add, stringResource(R.string.inserir_posto))
+        if (hasLocalization) {
+            FloatingActionButton(
+                onClick = {
+                    val lat = location?.latitude.toString()
+                    val long = location!!.longitude.toString()
+                    navController?.navigate("ListaDePostos/add/$gasStationName/$alcoolText/$gasText/$lat/$long")
+                },
+            ) {
+                Icon(Icons.Filled.Add, stringResource(R.string.inserir_posto))
+            }
         }
     }) {
         Column(
@@ -219,8 +249,10 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 
-                FuelInput(gasText, onChangeText = { gasText = it },
-                    stringResource(R.string.gasolina))
+                FuelInput(
+                    gasText, onChangeText = { gasText = it },
+                    stringResource(R.string.gasolina)
+                )
 
                 Text(
                     text = stringResource(R.string.pre_o_da_lcool), fontSize = 22.sp,
@@ -232,8 +264,10 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
 
                 Spacer(modifier = Modifier.size(0.dp, 24.dp))
 
-                FuelInput(alcoolText, onChangeText = { alcoolText = it },
-                    stringResource(R.string.alcool))
+                FuelInput(
+                    alcoolText, onChangeText = { alcoolText = it },
+                    stringResource(R.string.alcool)
+                )
 
                 Spacer(modifier = Modifier.size(0.dp, 16.dp))
 
@@ -267,6 +301,17 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                         if (checked) 0.75f else 0.70f
                     )
                     Log.d("teste", "asd")
+                }
+                if (hasLocalization) {
+                    Text("Localização Adquirida", modifier = Modifier.padding(6.dp),color = MaterialTheme.colorScheme.onSurface)
+
+                } else {
+                    Text(
+                        "Para adicionar um novo Posto usa localização deve está ativa",
+                        modifier = Modifier.padding(6.dp),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
                 }
             }
         }
