@@ -1,26 +1,26 @@
 # Página inicial
-![pagina inicial](projectsAssets/home_pt.jpg)
+<img src="projectsAssets/home_pt.jpg" style="width:400px;height:940px;">
 
 # Página inicial Com GPS Ligado
-![pagina inicial Com GPS Ligado](projectsAssets/home_pt_gpsON.jpg)
+<img src="projectsAssets/home_pt_gpsON.jpg" style="width:400px;height:940px;">
 
 # Lista de Postos
-![Lista de Postos](projectsAssets/list_statios_pt.jpg)
+<img src="projectsAssets/list_statios_pt.jpg" style="width:400px;height:940px;">
 
 # Informações de Posto
-![pagina inicial](projectsAssets/station_info_pt.jpg)
+<img src="projectsAssets/station_info_pt.jpg" style="width:400px;height:940px;">
 
 # Editar informações de Posto
-![pagina inicial](projectsAssets/edit_station_pt.jpg)
+<img src="projectsAssets/edit_station_pt.jpg" style="width:400px;height:940px;">
 
 # Página inicial (en)
-![pagina inicial](projectsAssets/home_en.jpg)
+<img src="projectsAssets/home_en.jpg" style="width:400px;height:940px;">
 
 # Página inicial Com GPS Ligado (en)
-![pagina inicial Com GPS Ligado](projectsAssets/home_en_gpsOn.jpg)
+<img src="projectsAssets/home_en_gpsOn.jpg" style="width:400px;height:940px;">
 
 # Lista de Postos (en)
-![Lista de Postos](projectsAssets/list_statios_en.jpg)
+<img src="projectsAssets/list_statios_en.jpg" style="width:400px;height:940px;">
 
 # Informações de Posto (en)
-![pagina inicial](projectsAssets/station_info_en.jpg)
+<img src="projectsAssets/station_info_en.jpg" style="width:400px;height:940px;">
