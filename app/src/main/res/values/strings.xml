@@ -29,4 +29,6 @@
     <string name="pre_o_do_alcool">"Preço do Alcool: "</string>
     <string name="data_de_cadastro">"Data de Cadastro: "</string>
     <string name="abrir_no_maps">Abrir no Maps</string>
+    <string name="para_adicionar_um_novo_posto_usa_localiza_o_deve_est_ativa">Para adicionar um novo Posto usa localização deve está ativa</string>
+    <string name="localiza_o_adquirida">Localização Adquirida</string>
 </resources>

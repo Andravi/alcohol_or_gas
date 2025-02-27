@@ -30,4 +30,6 @@
     <string name="pre_o_do_alcool">"Alcohol Price: "</string>
     <string name="data_de_cadastro">"Registration Date: "</string>
     <string name="abrir_no_maps">Open in Maps</string>
+    <string name="para_adicionar_um_novo_posto_usa_localiza_o_deve_est_ativa">To add a new Station, the location must be active.</string>
+    <string name="localiza_o_adquirida">Acquired Location</string>
 </resources>

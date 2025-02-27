@@ -300,14 +300,13 @@ fun AlcoolOrGas(navController: NavHostController?, check: Boolean) {
                         },
                         if (checked) 0.75f else 0.70f
                     )
-                    Log.d("teste", "asd")
                 }
                 if (hasLocalization) {
-                    Text("Localização Adquirida", modifier = Modifier.padding(6.dp),color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.localiza_o_adquirida), modifier = Modifier.padding(6.dp),color = MaterialTheme.colorScheme.onSurface)
 
                 } else {
                     Text(
-                        "Para adicionar um novo Posto usa localização deve está ativa",
+                        stringResource(R.string.para_adicionar_um_novo_posto_usa_localiza_o_deve_est_ativa),
                         modifier = Modifier.padding(6.dp),
                         color = MaterialTheme.colorScheme.onSurface
                     )
